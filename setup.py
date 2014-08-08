@@ -32,6 +32,7 @@ setup(
     keywords = "dispel4py registry processing elements",
     url = "https://github.com/akrause2014/registry",
     packages=['dispel4py.registry'],
+    install_requires=['requests'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
