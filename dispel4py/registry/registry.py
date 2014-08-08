@@ -17,7 +17,7 @@ import sys
 import requests
 import traceback
 import json
-from dispel4py import utils
+from dispel4py.registry import utils
 
 DEF_URL = 'http://escience8.inf.ed.ac.uk:8080/VerceRegistry/rest/'
 DEF_WORKSPACE = 1

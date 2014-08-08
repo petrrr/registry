@@ -23,7 +23,7 @@ import subprocess
 import traceback
 import getpass
 
-from dispel4py import utils
+from dispel4py.registry import utils
 from dispel4py.registry import registry
 
 DISPEL4PY_CONFIG_DIR = os.path.expanduser('~/.dispel4py/')
