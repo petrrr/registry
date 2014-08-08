@@ -28,6 +28,7 @@ from dispel4py.registry import registry
 
 DISPEL4PY_CONFIG_DIR = os.path.expanduser('~/.dispel4py/')
 CACHE = DISPEL4PY_CONFIG_DIR + '.cache'
+CONFIG_NAME = 'config.json'
 
 def login(username, password=None):
     if username is None:
@@ -248,7 +249,7 @@ def getEditor():
     return def_editor
 
 def configure():
-    configName = '.dispel4py/config.json'
+    configName = '.dispel4py/' + CONFIG_NAME
     try:
         # look for an environment variable
         CONFIG = os.environ['DISPEL4PY_CONFIG'].encode('utf-8')
@@ -258,14 +259,19 @@ def configure():
             CONFIG = os.path.abspath(configName)
         else:
             # or in the user home directory
-            CONFIG = os.path.expanduser('~/%s' % configName)
-
-    try:
-        with open(CONFIG, 'r') as config_file:
-            conf = json.load(config_file)
-    except:
-        sys.stderr.write("No configuration found. Please ensure that the configuration is available at ~/%s or define $DISPEL4PY_CONFIG.\n" % configName)
-        sys.exit(1) 
+            CONFIG = os.path.abspath('~/%s%s' % (DISPEL4PY_CONFIG_DIR, CONFIG_NAME)
+    if not os.path.isfile(CONFIG):
+        # create config
+        conf = { 'verce.registry' : { 'url' : registry.DEF_URL, 'workspace' : registry.DEF_WORKSPACE } }
+        with open(CONFIG, 'w') as config_file:
+            config_file.write(json.dumps(conf))
+    else:
+        try:
+            with open(CONFIG, 'r') as config_file:
+                conf = json.load(config_file)
+        except:
+            sys.stderr.write("No valid configuration found. Please ensure that the configuration is available at ~/%s or define $DISPEL4PY_CONFIG.\n" % configName)
+            sys.exit(1) 
     return conf 
 
 if __name__ == '__main__':
