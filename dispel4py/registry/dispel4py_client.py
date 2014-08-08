@@ -259,7 +259,7 @@ def configure():
             CONFIG = os.path.abspath(configName)
         else:
             # or in the user home directory
-            CONFIG = os.path.abspath('~/%s%s' % (DISPEL4PY_CONFIG_DIR, CONFIG_NAME)
+            CONFIG = os.path.abspath('~/%s%s' % (DISPEL4PY_CONFIG_DIR, CONFIG_NAME))
     if not os.path.isfile(CONFIG):
         # create config
         conf = { 'verce.registry' : { 'url' : registry.DEF_URL, 'workspace' : registry.DEF_WORKSPACE } }
@@ -274,7 +274,7 @@ def configure():
             sys.exit(1) 
     return conf 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='View and register Dispel4Py objects in a registry.')
     parser.add_argument('command', help='command to execute, one of: list, view, register')
     parser.add_argument('args', nargs='*', help='command arguments')
@@ -294,6 +294,6 @@ if __name__ == '__main__':
         except KeyError:
             sys.stderr.write("Unknown command: %s\n" % command)
             usage()
-            sys.exit(2)
     
-    
+if __name__ == '__main__':
+    main()

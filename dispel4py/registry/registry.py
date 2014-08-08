@@ -46,8 +46,13 @@ class VerceRegistry(object):
     def login(self, user, password):
         url = self.registry_url + 'login?username=%s&password=%s' % (user, password)
         response = requests.post(url)
-        if response.status_code != requests.codes.ok:
-            raise NotAuthorisedException()
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            if response.status_code == requests.codes.forbidden:
+                raise NotAuthorisedException()
+            else:
+                raise
         try:
             self.token = response.json()['token']
             self.user = user
@@ -362,6 +367,8 @@ def initRegistry(username=None, password=None, url=DEF_URL, workspace=DEF_WORKSP
         response = requests.get(url + 'workspaces', headers=getHeaders(token))
         if response.status_code == requests.codes.forbidden:
             raise NotAuthorisedException()
+        else:
+            response.raise_for_status()
     else:
         reg.login(username, password)
     sys.meta_path.append(reg)
