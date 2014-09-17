@@ -31,7 +31,7 @@ setup(
     license = "Apache 2",
     keywords = "dispel4py registry processing elements",
     url = "https://github.com/akrause2014/registry",
-    packages=['dispel4py', 'dispel4py.registry', 'dispel4py.registry.core', 'dispel4py.registry.client', 'dispel4py.registry.utils'],
+    packages=['dispel4py', 'dispel4py.registry'],
     install_requires=['requests'],
     long_description=read('README.md'),
     classifiers=[
