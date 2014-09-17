@@ -32,6 +32,9 @@ setup(
     keywords = "dispel4py registry processing elements",
     url = "https://github.com/akrause2014/registry",
     packages=['dispel4py.registry'],
+    entry_points={
+        'console_scripts': ['idispel4py = dispel4py.registry.client:main']
+    },
     install_requires=['requests'],
     long_description=read('README.md'),
     classifiers=[
