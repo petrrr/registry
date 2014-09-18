@@ -24,7 +24,7 @@ import traceback
 import getpass
 
 from dispel4py.registry import utils
-from dispel4py.registry import registry
+from dispel4py.registry import core
 
 DISPEL4PY_CONFIG_DIR = os.path.expanduser('~/.dispel4py/')
 CACHE = DISPEL4PY_CONFIG_DIR + '.cache'
@@ -36,8 +36,8 @@ def login(username, password=None):
     if password is None:
         password = getpass.getpass('Password: ')
     try:
-        reg = registry.initRegistry(username, password)
-    except registry.NotAuthorisedException:
+        reg = core.initRegistry(username, password)
+    except core.NotAuthorisedException:
         sys.stderr.write("Not authorised.\n")
         sys.exit(4)
     enc = base64.b64encode(password)
@@ -84,12 +84,12 @@ def _initRegistry(username=None, password=None):
     try:
         if token:
             try:
-                reg = registry.initRegistry(username=username, token=token, url=url, workspace=workspace)
-            except registry.NotAuthorisedException:
+                reg = core.initRegistry(username=username, token=token, url=url, workspace=workspace)
+            except core.NotAuthorisedException:
                 reg = login(username, password)
         else:
             reg = login(username, password)
-    except registry.NotAuthorisedException:
+    except core.NotAuthorisedException:
         sys.stderr.write("Not authorised.\n")
         sys.exit(4)
         
@@ -99,7 +99,7 @@ def register(reg, name, attr, file=None):
     '''
     Register the contents of the given file under the given name. If a file is not provided, use stdin.
     '''
-    pkg, simpleName = registry.split_name(name)
+    pkg, simpleName = core.split_name(name)
     if file:
         with open(file, 'r') as source_file:
             source = source_file.read()
@@ -111,7 +111,7 @@ def register(reg, name, attr, file=None):
             reg.register_function(name, attr, file)
         else:
             reg.register_pe(name, attr, file)
-    except registry.NotAuthorisedException:
+    except core.NotAuthorisedException:
         sys.stderr.write("Not authorised.\n")
         sys.exit(4)
     except Exception as err:
@@ -124,7 +124,7 @@ def view(reg, name):
     '''
     try:
         source = reg.get_code(name)
-    except registry.NotAuthorisedException:
+    except core.NotAuthorisedException:
         sys.stderr.write("Not authorised.")
         sys.exit(4)
     except Exception as err:
@@ -142,10 +142,10 @@ def list(reg, name):
     '''
     try:
         pkgs = reg.listPackages(name)
-    except registry.UnknownPackageException as exc:
+    except core.UnknownPackageException as exc:
         sys.stderr.write("Unknown package: '%s'\n" % exc)
         sys.exit(3)
-    except registry.NotAuthorisedException:
+    except core.NotAuthorisedException:
         sys.stderr.write("Not authorised.")
         sys.exit(4)
     except Exception as err:
@@ -160,7 +160,7 @@ def list(reg, name):
     objs = []
     try:
         objs = reg.list(name)
-    except registry.UnknownPackageException:
+    except core.UnknownPackageException:
         pass
     except Exception as err:
         sys.stderr.write("An error occurred:\n%s\n" % err)
@@ -262,7 +262,7 @@ def configure():
             CONFIG = os.path.abspath('~/%s%s' % (DISPEL4PY_CONFIG_DIR, CONFIG_NAME))
     if not os.path.isfile(CONFIG):
         # create config
-        conf = { 'verce.registry' : { 'url' : registry.DEF_URL, 'workspace' : registry.DEF_WORKSPACE } }
+        conf = { 'verce.registry' : { 'url' : core.DEF_URL, 'workspace' : core.DEF_WORKSPACE } }
         with open(CONFIG, 'w') as config_file:
             config_file.write(json.dumps(conf))
     else:
