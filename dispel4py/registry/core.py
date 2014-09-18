@@ -27,8 +27,8 @@ AUTH_HEADER = 'X-Auth-Token'
 
 class VerceRegistry(object):
     '''
-    Dispy's interface to the VERCE Registry. dispy could work without a registry or through 
-    connecting to alternative registries of python and dispy components. In this instance this 
+    Dispel4Py's interface to the VERCE Registry. Dispel4Py could work without a registry or through 
+    connecting to alternative registries of python and dispel4py components. In this instance this 
     makes use of the VERCE Registry's REST API.
     '''
     
@@ -97,7 +97,7 @@ class VerceRegistry(object):
 
     def get_code(self, fullname):
         '''
-        Retrieves and returns the source code of the dispy component identified by 'fullname'. 
+        Retrieves and returns the source code of the dispel4py component identified by 'fullname'. 
         'fullname' is in the form package.name. 
         '''
         impl_id = self.getImplementationId(fullname)
@@ -108,7 +108,7 @@ class VerceRegistry(object):
                 
     def update_code(self, fullname, code):
         ''' 
-        Updates/replaces the source code of the given dispy component identified by 'fullname' 
+        Updates/replaces the source code of the given dispel4py component identified by 'fullname' 
         with the contents of 'code'.
         '''
         impl_id = self.getImplementationId(fullname)
@@ -183,7 +183,7 @@ class VerceRegistry(object):
         
     def register_function(self, fullname, functionName, path):
         '''
-        Registers a dispy/python function with the VERCE Registry. The function is registered under 
+        Registers a dispel4py/python function with the VERCE Registry. The function is registered under 
         'fullname' and it is identified by 'functionName'. 'path' is the path to a file containing
         the source code of the function to be registered.
         '''           
@@ -229,7 +229,7 @@ class VerceRegistry(object):
             
     def register_pe(self, fullname, className, path):   
         '''
-        Registers a dispy processing element (PE) with the VERCE Registry. The PE is registered under 
+        Registers a dispel4py processing element (PE) with the VERCE Registry. The PE is registered under 
         'fullname' and it is identified by 'className'. 'path' is the path to a file containing
         the source code of the PE to be registered.
         '''          
@@ -402,7 +402,7 @@ def createResources(resources_dir, registry):
     Caches source code imported from the registry 
     
     :param resources_dir: directory for caching the source code
-    :param registry: the dispy registry, may be None.
+    :param registry: the dispel4py registry, may be None.
     '''    
     if not registry:
         return

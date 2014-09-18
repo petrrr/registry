@@ -16,7 +16,7 @@
 The IPython extension for viewing and listing modules from the Dispel4Py registry.
 '''
 
-from dispel4py.registry import registry, client
+from dispel4py.registry import core, client
 import traceback
 
 def _initRegistry():
@@ -35,7 +35,7 @@ def _listObjects(name):
     reg = _initRegistry()
     try:
         objs = reg.list(name)
-    except registry.UnknownPackageException:
+    except core.UnknownPackageException:
         objs = []
     return objs
 

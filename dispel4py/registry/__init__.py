@@ -13,5 +13,5 @@
 # limitations under the License.
 
 '''
-The core packages for Dispel4Py.
+The core packages for the registry.
 '''
